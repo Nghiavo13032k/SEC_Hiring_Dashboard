@@ -3,483 +3,537 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HIGHLANDS COFFEE | NATIONWIDE SECURITY HIRING </title>
+    <title>SEC HIRING REPORT</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#0F172A',
+                            800: '#1E293B',
+                            700: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-        
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #0B0F19;
             color: #F8FAFC;
         }
-
         .glass-card {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
         }
-
-        .glass-card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
         }
-        .glass-card-hover:hover {
-            transform: translateY(-2px);
-            border-color: rgba(225, 29, 72, 0.3);
-            box-shadow: 0 10px 25px -5px rgba(225, 29, 72, 0.1);
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.6);
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #E11D48;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #FFF 0%, #94A3B8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .region-btn {
-            transition: all 0.2s ease;
-        }
+        .region-btn { transition: all 0.2s ease; }
         .region-btn.active {
             background-color: #E11D48;
             color: #FFFFFF;
-            box-shadow: 0 0 15px rgba(225, 29, 72, 0.4);
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
         }
-
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.8; }
+        .nav-btn { transition: all 0.2s ease; }
+        .nav-btn.active {
+            background-color: rgba(225, 29, 72, 0.1);
+            color: #FB7185;
+            border-color: rgba(225, 29, 72, 0.2);
         }
-        .animate-pulse-glow {
-            animation: pulse-glow 3s infinite ease-in-out;
-        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0F172A; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        .view-section { display: block; }
+        .view-section.hidden { display: none; }
     </style>
 </head>
-<body class="min-h-screen pb-12">
+<body class="flex h-screen overflow-hidden text-slate-200">
 
-    <!-- BACKGROUND GLOWS -->
-    <div class="fixed top-0 left-1/4 w-96 h-96 bg-rose-900/20 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
-    <div class="fixed bottom-10 right-10 w-96 h-96 bg-blue-900/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
-
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6 relative z-10">
-
-        <!-- HEADER BAR -->
-        <header class="glass-card rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-l-4 border-l-rose-600">
-            <div>
-                <div class="flex items-center gap-3">
-                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-400 border border-rose-500/20">
-                        Live Tracking
-                    </span>
-                    <span id="data-source-tag" class="text-xs text-slate-400 flex items-center gap-1">
-                        <i data-lucide="radio" class="w-3 h-3 text-emerald-400 animate-pulse"></i> 
-                    </span>
-                </div>
-                <h1 class="text-2xl sm:text-3xl font-extrabold gradient-text mt-1 tracking-tight">SEC HIRING REPORT</h1>
-                <p class="text-xs text-slate-400 flex items-center gap-2 mt-0.5">
-                    <span>Review Period: <strong id="lbl-reviewPeriod" class="text-slate-200">W33 (9/8 – 15/8)</strong></span>
-                    <span>•</span>
-                    <span>Report Date: <strong id="lbl-reportDate" class="text-slate-200">Aug 17, 2026</strong></span>
-                </p>
+    <!-- SIDEBAR WITH LOGO.HC AND CLEANED BRANDING -->
+    <aside class="w-64 glass-card border-r border-slate-800 flex flex-col justify-between hidden md:flex z-20">
+        <div>
+            <!-- LOGO IMAGE -->
+            <div class="p-6 flex items-center justify-center border-b border-slate-800/80">
+                <img src="Logo.HC.png" alt="Logo.HC" class="max-h-12 w-auto object-contain" onerror="this.onerror=null; this.src='Logo.HC.jpg';">
             </div>
+            
+            <nav class="p-4 space-y-1" id="sidebar-nav">
+                <button onclick="switchView('overview')" id="nav-overview" class="nav-btn active flex items-center gap-3 w-full px-4 py-3 text-sm font-medium rounded-xl border border-transparent text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Overview
+                </button>
+                <button onclick="switchView('pipeline')" id="nav-pipeline" class="nav-btn flex items-center gap-3 w-full px-4 py-3 text-sm font-medium rounded-xl border border-transparent text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                    <i data-lucide="git-pull-request" class="w-4 h-4"></i> Hiring Pipeline
+                </button>
+                <button onclick="switchView('turnover')" id="nav-turnover" class="nav-btn flex items-center gap-3 w-full px-4 py-3 text-sm font-medium rounded-xl border border-transparent text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                    <i data-lucide="trending-down" class="w-4 h-4"></i> Turnover Analytics
+                </button>
+                <button onclick="switchView('resignations')" id="nav-resignations" class="nav-btn flex items-center gap-3 w-full px-4 py-3 text-sm font-medium rounded-xl border border-transparent text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                    <i data-lucide="users-minus" class="w-4 h-4"></i> DM Resignations
+                </button>
+            </nav>
+        </div>
+        <div class="p-4 text-[10px] text-slate-500 border-t border-slate-800/80" id="data-source-tag">
+            Data source: Default sample
+        </div>
+    </aside>
 
-            <!-- REGION FILTER CONTROLS -->
-            <div class="flex items-center gap-2 bg-slate-900/80 p-1.5 rounded-xl border border-slate-800 self-stretch md:self-auto justify-between md:justify-start">
-                <button onclick="filterRegion('all')" id="btn-all" class="region-btn active px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white">
-                    Nationwide
-                </button>
-                <button onclick="filterRegion('South')" id="btn-South" class="region-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white">
-                    South
-                </button>
-                <button onclick="filterRegion('Central')" id="btn-Central" class="region-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white">
-                    Central
-                </button>
-                <button onclick="filterRegion('North')" id="btn-North" class="region-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white">
-                    North
-                </button>
+    <!-- MAIN CONTENT -->
+    <div class="flex-1 flex flex-col h-full overflow-y-auto">
+
+        <!-- HEADER WITH DYNAMIC REGION CONTROLS -->
+        <header class="sticky top-0 z-30 glass-card border-b border-slate-800 px-8 py-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20" id="current-view-tag">OVERVIEW</span>
+                    <h2 class="text-xl font-bold text-white tracking-tight" id="header-title">SEC HIRING | NATIONWIDE</h2>
+                </div>
+                <p class="text-xs text-slate-400 mt-1" id="header-period">Aug 17, 2026 • Review Period: W33 (9/8 – 15/8)</p>
+            </div>
+            
+            <!-- REGION FILTER TABS -->
+            <div class="flex items-center p-1 rounded-xl bg-slate-900 border border-slate-800">
+                <button onclick="filterRegion('all')" id="btn-all" class="region-btn active px-4 py-2 rounded-lg text-xs font-semibold text-slate-300">Nationwide</button>
+                <button onclick="filterRegion('South')" id="btn-South" class="region-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-300">South</button>
+                <button onclick="filterRegion('Central')" id="btn-Central" class="region-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-300">Central</button>
+                <button onclick="filterRegion('North')" id="btn-North" class="region-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-300">North</button>
             </div>
         </header>
 
-        <!-- KPI SUMMARY CARDS -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- APPLICANTS -->
-            <div class="glass-card glass-card-hover p-5 rounded-2xl relative overflow-hidden">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Applicants</p>
-                        <h3 id="kpi-applicants" class="text-3xl font-extrabold text-white mt-1">0</h3>
+        <!-- DASHBOARD BODY CONTAINER -->
+        <main class="p-8 space-y-8">
+
+            <!-- METRIC CARDS -->
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="glass-card p-5 rounded-2xl relative overflow-hidden">
+                    <p class="text-xs text-slate-400 font-medium">Total Weekly Applicants</p>
+                    <div class="flex items-baseline justify-between mt-3">
+                        <h3 class="text-3xl font-bold text-white" id="kpi-applicants">145</h3>
+                        <span class="text-xs font-semibold text-emerald-400" id="kpi-region-tag">Nationwide</span>
                     </div>
-                    <div class="p-2.5 bg-rose-500/10 rounded-xl border border-rose-500/20 text-rose-400">
-                        <i data-lucide="users" class="w-5 h-5"></i>
-                    </div>
+                    <p class="text-[11px] text-slate-400 mt-3 pt-3 border-t border-slate-800/80" id="kpi-applicants-sub">South: 97 | North/Central: 48</p>
                 </div>
-                <p id="kpi-applicants-sub" class="text-[11px] text-slate-400 mt-3 truncate">--</p>
-            </div>
 
-            <!-- INTERVIEW PASS -->
-            <div class="glass-card glass-card-hover p-5 rounded-2xl relative overflow-hidden">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Passed Interview</p>
-                        <h3 id="kpi-pass" class="text-3xl font-extrabold text-emerald-400 mt-1">0</h3>
+                <div class="glass-card p-5 rounded-2xl relative overflow-hidden">
+                    <p class="text-xs text-slate-400 font-medium">Weekly Pass (9/8 – 15/8)</p>
+                    <div class="flex items-baseline justify-between mt-3">
+                        <h3 class="text-3xl font-bold text-emerald-400" id="kpi-pass">10</h3>
+                        <span class="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">Passed</span>
                     </div>
-                    <div class="p-2.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20 text-emerald-400">
-                        <i data-lucide="user-check" class="w-5 h-5"></i>
-                    </div>
+                    <p class="text-[11px] text-slate-400 mt-3 pt-3 border-t border-slate-800/80" id="kpi-pass-sub">South: 7 • Central: 2 • North: 1</p>
                 </div>
-                <p id="kpi-pass-sub" class="text-[11px] text-slate-400 mt-3 truncate">--</p>
-            </div>
 
-            <!-- ACTIVE REQUESTS -->
-            <div class="glass-card glass-card-hover p-5 rounded-2xl relative overflow-hidden">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Demands</p>
-                        <h3 id="kpi-active" class="text-3xl font-extrabold text-amber-400 mt-1">0</h3>
+                <div class="glass-card p-5 rounded-2xl relative overflow-hidden">
+                    <p class="text-xs text-slate-400 font-medium">Active Hiring Requests</p>
+                    <div class="flex items-baseline justify-between mt-3">
+                        <h3 class="text-3xl font-bold text-blue-400" id="kpi-active">38</h3>
+                        <span class="text-xs font-semibold text-slate-400">Open Slots</span>
                     </div>
-                    <div class="p-2.5 bg-amber-500/10 rounded-xl border border-amber-500/20 text-amber-400">
-                        <i data-lucide="clock" class="w-5 h-5"></i>
-                    </div>
+                    <p class="text-[11px] text-slate-400 mt-3 pt-3 border-t border-slate-800/80" id="kpi-active-sub">South: 25 | North: 10 | Central: 3</p>
                 </div>
-                <p id="kpi-active-sub" class="text-[11px] text-slate-400 mt-3 truncate">--</p>
-            </div>
 
-            <!-- NET GROWTH -->
-            <div class="glass-card glass-card-hover p-5 rounded-2xl relative overflow-hidden">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Net Growth</p>
-                        <h3 id="kpi-net" class="text-3xl font-extrabold text-indigo-400 mt-1">+0</h3>
+                <div class="glass-card p-5 rounded-2xl relative overflow-hidden">
+                    <p class="text-xs text-slate-400 font-medium">Weekly Onboard Net</p>
+                    <div class="flex items-baseline justify-between mt-3">
+                        <h3 class="text-3xl font-bold text-rose-400" id="kpi-net">+34</h3>
+                        <span class="text-xs font-semibold text-slate-400">Net Growth</span>
                     </div>
-                    <div class="p-2.5 bg-indigo-500/10 rounded-xl border border-indigo-500/20 text-indigo-400">
-                        <i data-lucide="trending-up" class="w-5 h-5"></i>
-                    </div>
+                    <p class="text-[11px] text-slate-400 mt-3 pt-3 border-t border-slate-800/80" id="kpi-net-sub">37 Onboarded / 3 Resigned</p>
                 </div>
-                <p id="kpi-net-sub" class="text-[11px] text-slate-400 mt-3 truncate">--</p>
-            </div>
-        </section>
+            </section>
 
-        <!-- MAIN CONTENT GRID -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- VIEW 1: HIRING PIPELINE VIEW -->
+            <div id="view-pipeline" class="view-section space-y-8">
+                <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="glass-card p-6 rounded-2xl lg:col-span-2">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-base font-semibold text-white flex items-center gap-2">
+                                <i data-lucide="layers" class="w-4 h-4 text-rose-400"></i> Weekly Hiring Pipeline
+                            </h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs text-slate-300">
+                                <thead class="bg-slate-800/60 text-slate-400 uppercase">
+                                    <tr>
+                                        <th class="p-3">Region</th>
+                                        <th class="p-3 text-center">NSO</th>
+                                        <th class="p-3 text-center">NSO Exist.</th>
+                                        <th class="p-3 text-center">Exist.</th>
+                                        <th class="p-3 text-right">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pipeline-tbody" class="divide-y divide-slate-800/60"></tbody>
+                            </table>
+                        </div>
 
-            <!-- LEFT 2 COLUMNS: PIPELINE & TREND CHART -->
-            <div class="lg:col-span-2 space-y-6">
-                
-                <!-- WEEKLY TREND CHART -->
-                <div class="glass-card p-6 rounded-2xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <div>
-                            <h2 class="text-base font-bold text-white flex items-center gap-2">
-                                <i data-lucide="line-chart" class="w-4 h-4 text-rose-500"></i> Active Requests Weekly Trend
-                            </h2>
-                            <p class="text-xs text-slate-400">Historical view across selected region</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 pt-6 border-t border-slate-800/80">
+                            <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                                <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">New Requests</span>
+                                <h4 class="text-lg font-bold text-white mt-1" id="new-req-title">11 NEW</h4>
+                                <p class="text-xs text-slate-400 mt-2" id="new-req-desc">South: 6 | North: 4 | Central: 1</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                                <span class="text-[10px] font-bold text-blue-400 uppercase tracking-wider">Active Requests</span>
+                                <h4 class="text-lg font-bold text-white mt-1" id="act-req-title">38 REQUESTS</h4>
+                                <p class="text-xs text-slate-400 mt-2" id="act-req-desc">South: 25 | North: 10 | Central: 3</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="h-64 w-full">
-                        <canvas id="trendChart"></canvas>
-                    </div>
-                </div>
 
-                <!-- PIPELINE BREAKDOWN TABLE -->
-                <div class="glass-card p-6 rounded-2xl">
-                    <div class="flex justify-between items-center mb-4">
+                    <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
                         <div>
-                            <h2 class="text-base font-bold text-white flex items-center gap-2">
-                                <i data-lucide="layers" class="w-4 h-4 text-rose-500"></i> Recruitment Pipeline
-                            </h2>
-                            <p class="text-xs text-slate-400">Status breakdown of passed candidates</p>
+                            <h3 class="text-base font-semibold text-white mb-1 flex items-center gap-2">
+                                <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-400"></i> Weekly Pass Trend
+                            </h3>
+                            <p class="text-xs text-slate-400 mb-4" id="trend-subtitle">W30 to W33 Breakdown</p>
+                        </div>
+                        <div class="h-60 relative">
+                            <canvas id="weeklyChart"></canvas>
                         </div>
                     </div>
-                    <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left border-collapse text-xs">
-                            <thead>
-                                <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider">
-                                    <th class="py-3 px-4">Region</th>
-                                    <th class="py-3 px-4">NSO</th>
-                                    <th class="py-3 px-4">NSO + Existing</th>
-                                    <th class="py-3 px-4">Existing Store</th>
-                                    <th class="py-3 px-4 font-bold text-white">Total Passed</th>
+                </section>
+            </div>
+
+            <!-- VIEW 2: TURNOVER ANALYTICS VIEW -->
+            <div id="view-turnover" class="view-section hidden space-y-8">
+                <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="glass-card p-6 rounded-2xl">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-base font-semibold text-white">YTD Turnover Rate by RM/AM</h3>
+                            <span class="text-xs text-slate-400">First 8 Months</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs text-slate-300">
+                                <thead class="bg-slate-800/60 text-slate-400 uppercase">
+                                    <tr>
+                                        <th class="p-2.5">RM / AM</th>
+                                        <th class="p-2.5 text-center">Avg HC</th>
+                                        <th class="p-2.5 text-center">Resigned</th>
+                                        <th class="p-2.5 text-right">Turnover Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="turnover-rm-tbody" class="divide-y divide-slate-800/60"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-base font-semibold text-white">Turnover Rate by OM & Forecast 2026</h3>
+                            <span class="text-xs text-emerald-400 font-medium">8M Actual vs FC</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs text-slate-300">
+                                <thead class="bg-slate-800/60 text-slate-400 uppercase">
+                                    <tr>
+                                        <th class="p-2">OM</th>
+                                        <th class="p-2 text-center">Avg HC</th>
+                                        <th class="p-2 text-center">8M Rate</th>
+                                        <th class="p-2 text-right">FC Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="turnover-om-tbody" class="divide-y divide-slate-800/60"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- VIEW 3: DM RESIGNATIONS VIEW -->
+            <div id="view-resignations" class="view-section hidden space-y-8">
+                <section class="glass-card p-6 rounded-2xl">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-base font-semibold text-white flex items-center gap-2">
+                            <i data-lucide="users" class="w-4 h-4 text-rose-400"></i> Resignation Rate by District Manager (DM)
+                        </h3>
+                        <span class="text-xs text-slate-400">First 8 Months (Up to 14/08)</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-slate-300">
+                            <thead class="bg-slate-800/60 text-slate-400 uppercase">
+                                <tr>
+                                    <th class="p-2.5">Region</th>
+                                    <th class="p-2.5">DM Name</th>
+                                    <th class="p-2.5 text-center">Total Employees</th>
+                                    <th class="p-2.5 text-center">Total Resign</th>
+                                    <th class="p-2.5 text-right">% Resignation</th>
                                 </tr>
                             </thead>
-                            <tbody id="pipeline-tbody" class="divide-y divide-slate-800/60 text-slate-300">
-                                <!-- Dynamic Injection -->
-                            </tbody>
+                            <tbody id="dm-tbody" class="divide-y divide-slate-800/60"></tbody>
                         </table>
                     </div>
-                </div>
+                </section>
+
+                <section class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-base font-semibold text-white mb-4 flex items-center gap-2">
+                        <i data-lucide="file-text" class="w-4 h-4 text-amber-400"></i> Resignation Logs Filtered by Region
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-slate-300">
+                            <thead class="bg-slate-800/60 text-slate-400 uppercase">
+                                <tr>
+                                    <th class="p-2.5">Full Name</th>
+                                    <th class="p-2.5">Region</th>
+                                    <th class="p-2.5">Store / Province</th>
+                                    <th class="p-2.5">DM</th>
+                                    <th class="p-2.5">Service Start</th>
+                                    <th class="p-2.5">Resign Date</th>
+                                    <th class="p-2.5 text-center">Working Days</th>
+                                    <th class="p-2.5">Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logs-tbody" class="divide-y divide-slate-800/60"></tbody>
+                        </table>
+                    </div>
+                </section>
             </div>
 
-            <!-- RIGHT 1 COLUMN: LOGS & RESIGNATIONS -->
-            <div class="space-y-6">
-
-                <!-- DEMAND SUMMARY BOX -->
-                <div class="glass-card p-6 rounded-2xl border-t-2 border-t-amber-500">
-                    <h2 class="text-base font-bold text-white flex items-center gap-2 mb-3">
-                        <i data-lucide="alert-circle" class="w-4 h-4 text-amber-500"></i> Demand Breakdown
-                    </h2>
-                    <div class="space-y-3">
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
-                            <p id="lbl-newReqTitle" class="text-xs font-bold text-amber-400">0 NEW</p>
-                            <p id="lbl-newReqDesc" class="text-[11px] text-slate-400 mt-0.5">--</p>
-                        </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
-                            <p id="lbl-actReqTitle" class="text-xs font-bold text-rose-400">0 REQUESTS</p>
-                            <p id="lbl-actReqDesc" class="text-[11px] text-slate-400 mt-0.5">--</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DM RESIGNATIONS LIST -->
-                <div class="glass-card p-6 rounded-2xl">
-                    <h2 class="text-base font-bold text-white flex items-center gap-2 mb-3">
-                        <i data-lucide="user-x" class="w-4 h-4 text-rose-500"></i> DM Resignations
-                    </h2>
-                    <div id="resignations-container" class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
-                        <p class="text-xs text-slate-500 italic">No resignations recorded.</p>
-                    </div>
-                </div>
-
-                <!-- ACTIVITY LOGS -->
-                <div class="glass-card p-6 rounded-2xl">
-                    <h2 class="text-base font-bold text-white flex items-center gap-2 mb-3">
-                        <i data-lucide="file-text" class="w-4 h-4 text-indigo-400"></i> Recent Updates
-                    </h2>
-                    <div id="logs-container" class="space-y-2 max-h-56 overflow-y-auto custom-scrollbar text-xs text-slate-400">
-                        <p class="text-slate-500 italic">No activity logs recorded.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
+        </main>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed bottom-6 right-6 bg-rose-600 text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-xl opacity-0 transition-opacity duration-300 pointer-events-none flex items-center gap-2">
-        <i data-lucide="check-circle" class="w-4 h-4"></i>
-        <span id="toast-message">Data Synced</span>
-    </div>
-
-    <!-- JAVASCRIPT APP LOGIC -->
+    <!-- DYNAMIC NAVIGATION & FILTERING JAVASCRIPT -->
     <script>
-        const STORAGE_KEY = 'secHiringDashboardData';
-        let currentRegion = 'all';
-        let chartInstance = null;
-
-        // Default Fallback Data
         const DEFAULT_DATA = {
-            meta: { reportDate: 'Aug 17, 2026', reviewPeriod: 'W33 (9/8 – 15/8)' },
+            meta: {
+                reportDate: 'Aug 17, 2026',
+                reviewPeriod: 'W33 (9/8 – 15/8)'
+            },
             regions: {
                 all: { label: 'Nationwide', applicants: 145, applicantsSub: 'South: 97 | North/Central: 48', pass: 10, passSub: 'South: 7 • Central: 2 • North: 1', active: 38, activeSub: 'South: 25 | North: 10 | Central: 3', net: '+34', netSub: '37 Onboarded / 3 Resigned', newReqTitle: '11 NEW', newReqDesc: 'South: 6 | North: 4 | Central: 1', actReqTitle: '38 REQUESTS', actReqDesc: 'South: 25 | North: 10 | Central: 3' },
-                South: { label: 'South Region', applicants: 97, applicantsSub: '66.8% of Nationwide', pass: 7, passSub: 'NSO: 2 | Exist: 4', active: 25, activeSub: 'NSO: 7 | Exist: 17', net: '+24', netSub: '26 Onboarded / 2 Resigned', newReqTitle: '6 NEW', newReqDesc: 'NSO: 2', actReqTitle: '25 REQUESTS', actReqDesc: 'NSO: 7' },
-                Central: { label: 'Central Region', applicants: 24, applicantsSub: 'Central Breakdown', pass: 2, passSub: 'Exist: 2', active: 3, activeSub: 'NSO: 1', net: '+5', netSub: '6 Onboarded', newReqTitle: '1 NEW', newReqDesc: 'Exist: 1', actReqTitle: '3 REQUESTS', actReqDesc: 'NSO: 1' },
-                North: { label: 'North Region', applicants: 24, applicantsSub: 'North Breakdown', pass: 1, passSub: 'Exist: 1', active: 10, activeSub: 'NSO: 4', net: '+5', netSub: '5 Onboarded', newReqTitle: '4 NEW', newReqDesc: 'NSO: 2', actReqTitle: '10 REQUESTS', actReqDesc: 'NSO: 4' }
+                South: { label: 'South Region', applicants: 97, applicantsSub: '66.8% of Nationwide Applicants', pass: 7, passSub: 'NSO: 2 | NSO Exist: 1 | Exist: 4', active: 25, activeSub: 'NSO: 7 | NSO Exist: 1 | Exist: 17', net: '+24', netSub: '26 Onboarded / 2 Resigned', newReqTitle: '6 NEW', newReqDesc: 'NSO: 2 | NSO Exist: 1 | Exist: 3', actReqTitle: '25 REQUESTS', actReqDesc: 'NSO: 7 | NSO Exist: 1 | Exist: 17' },
+                Central: { label: 'Central Region', applicants: 24, applicantsSub: 'Central Applicants Breakdown', pass: 2, passSub: 'Exist: 2', active: 3, activeSub: 'NSO: 1 | NSO Exist: 1 | Exist: 1', net: '+5', netSub: '6 Onboarded / 1 Resigned', newReqTitle: '1 NEW', newReqDesc: 'NSO: 0 | NSO Exist: 0 | Exist: 1', actReqTitle: '3 REQUESTS', actReqDesc: 'NSO: 1 | NSO Exist: 1 | Exist: 1' },
+                North: { label: 'North Region', applicants: 24, applicantsSub: 'North Applicants Breakdown', pass: 1, passSub: 'Exist: 1', active: 10, activeSub: 'NSO: 4 | NSO Exist: 0 | Exist: 6', net: '+5', netSub: '5 Onboarded / 0 Resigned', newReqTitle: '4 NEW', newReqDesc: 'NSO: 2 | NSO Exist: 0 | Exist: 2', actReqTitle: '10 REQUESTS', actReqDesc: 'NSO: 4 | NSO Exist: 0 | Exist: 6' }
             },
             pipeline: [
                 { region: 'South', nso: 2, nsoExist: 1, exist: 4, total: 7 },
                 { region: 'North', nso: 0, nsoExist: 0, exist: 1, total: 1 },
                 { region: 'Central', nso: 0, nsoExist: 0, exist: 2, total: 2 }
             ],
-            weeklyTrends: { weeks: ['W30', 'W31', 'W32', 'W33'], South: [13, 10, 7, 7], Central: [5, 4, 3, 2], North: [2, 2, 2, 1] },
+            weeklyTrends: {
+                weeks: ['W30', 'W31', 'W32', 'W33'],
+                South: [13, 10, 7, 7],
+                Central: [5, 4, 3, 2],
+                North: [2, 2, 2, 1]
+            },
             dmResignations: [
-                { name: 'Nguyen Van A', region: 'South', store: 'HCM - District 1', date: 'Aug 10' }
+                { region: 'South', name: 'Nguyễn Thị Kim Thương', emp: 14, resign: 8, rate: '57%' },
+                { region: 'South', name: 'Nguyễn Thị Thanh Thảo', emp: 17, resign: 8, rate: '47%' },
+                { region: 'South', name: 'Đặng Thị Thanh Hồng', emp: 15, resign: 6, rate: '40%' },
+                { region: 'South', name: 'Trần Ngọc Nhanh', emp: 14, resign: 5, rate: '36%' },
+                { region: 'South', name: 'Nguyễn Thị Kim Ngân', emp: 35, resign: 12, rate: '34%' },
+                { region: 'South', name: 'Phùng Thanh Long', emp: 12, resign: 4, rate: '33%' },
+                { region: 'South', name: 'Lê Đình Thảo', emp: 23, resign: 7, rate: '30.43%' },
+                { region: 'Central', name: 'Phạm Tuân', emp: 18, resign: 10, rate: '56%' },
+                { region: 'Central', name: 'Nguyễn Hà Quân', emp: 13, resign: 5, rate: '38%' },
+                { region: 'Central', name: 'Phạm Thị Huệ', emp: 11, resign: 4, rate: '36%' },
+                { region: 'Central', name: 'Phạm Kiều Chinh', emp: 3, resign: 1, rate: '33%' },
+                { region: 'North', name: 'Nguyễn Thị Hoa', emp: 9, resign: 3, rate: '33%' },
+                { region: 'North', name: 'Trịnh Thị My', emp: 9, resign: 3, rate: '33%' },
+                { region: 'North', name: 'Nguyễn Thị Thúy Nga', emp: 23, resign: 7, rate: '30%' }
             ],
             logs: [
-                'Aug 15: South region added 2 NSO candidates',
-                'Aug 12: Central region updated request count'
+                { name: 'Y Layar Niê', region: 'South', store: 'GRBDLK002 131 Le Thanh Tong BMT', dm: 'Nguyễn Thị Kim Thương', start: '04-Sep-23', resign: '01-Jan-26', days: 850, reason: 'Family' },
+                { name: 'Nguyễn Phúc Anh Minh', region: 'South', store: 'GRBDLK002 131 Le Thanh Tong BMT', dm: 'Nguyễn Thị Kim Thương', start: '23-Apr-24', resign: '02-May-26', days: 739, reason: 'New job' },
+                { name: 'Trần Phạm Nam Phong', region: 'South', store: 'GRBDLK002 131 Le Thanh Tong BMT', dm: 'Nguyễn Thị Kim Thương', start: '04-Aug-25', resign: '01-Jan-26', days: 150, reason: 'Resign without notice' },
+                { name: 'Lê Ngọc Quang', region: 'Central', store: 'HCSDNA0038 29 Thang 3 Da Nang', dm: 'Phạm Tuân', start: '24-Jul-23', resign: '01-May-26', days: 1012, reason: 'Health' },
+                { name: 'Huỳnh Thanh Thông', region: 'Central', store: 'HCSDNA0038 29 Thang 3 Da Nang', dm: 'Phạm Tuân', start: '22-Jul-24', resign: '01-Jan-26', days: 528, reason: 'Health' },
+                { name: 'Giáp Hoàng Hà', region: 'Central', store: 'HCSDNA0038 29 Thang 3 Da Nang', dm: 'Phạm Tuân', start: '10-Mar-25', resign: '01-Apr-26', days: 387, reason: 'Personal' },
+                { name: 'Thái Văn Phong', region: 'Central', store: 'GRBDNA008 233 Ng Van Thoai DNG', dm: 'Phạm Thị Huệ', start: '10-Jun-24', resign: '01-Mar-26', days: 629, reason: 'Health' },
+                { name: 'Nguyễn Thượng Hòa', region: 'Central', store: 'HCSDNA0025 338 Ng Van Linh DNG', dm: 'Phạm Thị Huệ', start: '08-Sep-19', resign: '01-Jun-26', days: 2458, reason: 'Personal' },
+                { name: 'Nguyễn Thanh Tú', region: 'South', store: 'HCSBLI0001 Hoa Binh Bac Lieu', dm: 'Phạm Thị Ngọc Thanh', start: '17-Jun-22', resign: '14-Aug-26', days: 1519, reason: 'Personal' },
+                { name: 'Nguyễn Minh Tuấn', region: 'Central', store: 'HCSDNA0017 214 Tran Phu DNG', dm: 'Huỳnh Thị Kim Dung', start: '17-Feb-25', resign: '01-Aug-26', days: 530, reason: 'Personal' }
+            ],
+            turnoverByRM: [
+                { name: 'Hoang Minh Duc', avgHC: 165, resigned: 44, rate: '26.7%' },
+                { name: 'Pham Van Nam', avgHC: 672, resigned: 176, rate: '26.2%' },
+                { name: 'Nguyen Van Thanh', avgHC: 131, resigned: 32, rate: '24.4%' },
+                { name: 'Nguyen Chi Dong', avgHC: 95, resigned: 18, rate: '18.9%' }
+            ],
+            turnoverByOM: [
+                { name: 'Ngo Thi Phuong Vi', avgHC: 163, rate8M: '31.3%', rateFC: '46.9%' },
+                { name: 'Lu Ha Long', avgHC: 94, rate8M: '27.7%', rateFC: '41.5%' },
+                { name: 'Bui Kim Tuc', avgHC: 85, rate8M: '27.1%', rateFC: '40.6%' },
+                { name: 'Nguyen Hieu Minh', avgHC: 148, rate8M: '26.4%', rateFC: '39.5%' },
+                { name: 'Nguyen Thi Trang Tri', avgHC: 91, rate8M: '21.9%', rateFC: '32.9%' },
+                { name: 'Le Thi Thuy Lien', avgHC: 91, rate8M: '18.7%', rateFC: '28.0%' }
             ]
         };
 
-        let rawData = {};
+        const cloneData = (obj) => JSON.parse(JSON.stringify(obj));
+        let rawData = cloneData(DEFAULT_DATA);
 
-        function loadInitialData() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                try {
-                    rawData = JSON.parse(stored);
-                } catch (e) {
-                    rawData = JSON.parse(JSON.stringify(DEFAULT_DATA));
-                }
+        let currentRegion = 'all';
+        let trendChart;
+
+        // SIDEBAR VIEW SWITCHER
+        function switchView(view) {
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            const targetNav = document.getElementById(`nav-${view}`);
+            if (targetNav) targetNav.classList.add('active');
+
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.add('hidden'));
+
+            if (view === 'overview') {
+                document.getElementById('view-pipeline').classList.remove('hidden');
+                document.getElementById('view-turnover').classList.remove('hidden');
+                document.getElementById('view-resignations').classList.remove('hidden');
+                document.getElementById('current-view-tag').innerText = 'OVERVIEW';
             } else {
-                rawData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+                const targetView = document.getElementById(`view-${view}`);
+                if (targetView) targetView.classList.remove('hidden');
+                document.getElementById('current-view-tag').innerText = view.toUpperCase().replace('-', ' ');
             }
-            renderUI();
         }
 
-        // REALTIME CROSS-TAB LISTENER
-        window.addEventListener('storage', (event) => {
-            if (event.key === STORAGE_KEY && event.newValue) {
-                try {
-                    rawData = JSON.parse(event.newValue);
-                    renderUI();
-                    showToast('Dashboard auto-synced from Admin Panel');
-                } catch (e) {
-                    console.error('Error auto-syncing storage:', e);
-                }
-            }
-        });
-
-        function filterRegion(regionKey) {
-            currentRegion = regionKey;
-            document.querySelectorAll('.region-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.getElementById(`btn-${regionKey}`);
-            if (activeBtn) activeBtn.classList.add('active');
-            renderUI();
-        }
-
-        function renderUI() {
-            // Render Metadata
-            if (rawData.meta) {
-                document.getElementById('lbl-reportDate').innerText = rawData.meta.reportDate || '--';
-                document.getElementById('lbl-reviewPeriod').innerText = rawData.meta.reviewPeriod || '--';
-            }
-
-            // Render KPIs
-            const reg = (rawData.regions && rawData.regions[currentRegion]) ? rawData.regions[currentRegion] : rawData.regions['all'];
-            if (reg) {
-                document.getElementById('kpi-applicants').innerText = reg.applicants ?? 0;
-                document.getElementById('kpi-applicants-sub').innerText = reg.applicantsSub || '';
-                document.getElementById('kpi-pass').innerText = reg.pass ?? 0;
-                document.getElementById('kpi-pass-sub').innerText = reg.passSub || '';
-                document.getElementById('kpi-active').innerText = reg.active ?? 0;
-                document.getElementById('kpi-active-sub').innerText = reg.activeSub || '';
-                document.getElementById('kpi-net').innerText = reg.net || '+0';
-                document.getElementById('kpi-net-sub').innerText = reg.netSub || '';
-
-                document.getElementById('lbl-newReqTitle').innerText = reg.newReqTitle || '';
-                document.getElementById('lbl-newReqDesc').innerText = reg.newReqDesc || '';
-                document.getElementById('lbl-actReqTitle').innerText = reg.actReqTitle || '';
-                document.getElementById('lbl-actReqDesc').innerText = reg.actReqDesc || '';
-            }
-
-            // Render Pipeline Table
-            const tbody = document.getElementById('pipeline-tbody');
-            tbody.innerHTML = '';
-            const filteredPipeline = currentRegion === 'all' 
-                ? (rawData.pipeline || [])
-                : (rawData.pipeline || []).filter(p => p.region.toLowerCase() === currentRegion.toLowerCase());
-
-            if (filteredPipeline.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-500 italic">No pipeline data for this region.</td></tr>`;
-            } else {
-                filteredPipeline.forEach(row => {
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-slate-800/40 transition">
-                            <td class="py-3 px-4 font-medium text-white">${row.region}</td>
-                            <td class="py-3 px-4">${row.nso}</td>
-                            <td class="py-3 px-4">${row.nsoExist}</td>
-                            <td class="py-3 px-4">${row.exist}</td>
-                            <td class="py-3 px-4 font-bold text-rose-400">${row.total}</td>
-                        </tr>
-                    `;
-                });
-            }
-
-            // Render Resignations
-            const resContainer = document.getElementById('resignations-container');
-            const filteredRes = currentRegion === 'all'
-                ? (rawData.dmResignations || [])
-                : (rawData.dmResignations || []).filter(r => r.region.toLowerCase() === currentRegion.toLowerCase());
-
-            if (!filteredRes || filteredRes.length === 0) {
-                resContainer.innerHTML = `<p class="text-xs text-slate-500 italic">No resignations recorded.</p>`;
-            } else {
-                resContainer.innerHTML = filteredRes.map(item => `
-                    <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800 text-xs flex justify-between items-center">
-                        <div>
-                            <p class="font-bold text-slate-200">${item.name}</p>
-                            <p class="text-[10px] text-slate-400">${item.store || ''}</p>
-                        </div>
-                        <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20">${item.region}</span>
-                    </div>
-                `).join('');
-            }
-
-            // Render Activity Logs
-            const logsContainer = document.getElementById('logs-container');
-            if (!rawData.logs || rawData.logs.length === 0) {
-                logsContainer.innerHTML = `<p class="text-slate-500 italic">No activity logs recorded.</p>`;
-            } else {
-                logsContainer.innerHTML = rawData.logs.map(log => `
-                    <div class="p-2 bg-slate-900/40 rounded-lg border border-slate-800/60 flex items-start gap-2">
-                        <i data-lucide="check-circle2" class="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5"></i>
-                        <span>${log}</span>
-                    </div>
-                `).join('');
-            }
-
-            renderChart();
-            lucide.createIcons();
-        }
-
-        function renderChart() {
-            const ctx = document.getElementById('trendChart').getContext('2d');
-            if (chartInstance) chartInstance.destroy();
-
-            const wt = rawData.weeklyTrends || { weeks: [], South: [], Central: [], North: [] };
-            let datasets = [];
-
-            if (currentRegion === 'all') {
-                datasets = [
-                    { label: 'South', data: wt.South || [], borderColor: '#E11D48', backgroundColor: 'rgba(225, 29, 72, 0.1)', fill: true, tension: 0.3 },
-                    { label: 'Central', data: wt.Central || [], borderColor: '#F59E0B', backgroundColor: 'transparent', tension: 0.3 },
-                    { label: 'North', data: wt.North || [], borderColor: '#6366F1', backgroundColor: 'transparent', tension: 0.3 }
-                ];
-            } else {
-                const colorMap = { South: '#E11D48', Central: '#F59E0B', North: '#6366F1' };
-                datasets = [{
-                    label: `${currentRegion} Region`,
-                    data: wt[currentRegion] || [],
-                    borderColor: colorMap[currentRegion] || '#E11D48',
-                    backgroundColor: 'rgba(225, 29, 72, 0.15)',
-                    fill: true,
-                    tension: 0.3
-                }];
-            }
-
-            chartInstance = new Chart(ctx, {
-                type: 'line',
-                data: { labels: wt.weeks || [], datasets: datasets },
+        // INITIALIZE CHART
+        function initChart() {
+            const ctx = document.getElementById('weeklyChart').getContext('2d');
+            trendChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: rawData.weeklyTrends.weeks,
+                    datasets: []
+                },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: '#94A3B8', font: { family: 'Plus Jakarta Sans', size: 11 } } }
-                    },
+                    plugins: { legend: { labels: { color: '#94A3B8', font: { size: 10 } } } },
                     scales: {
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#64748B' } },
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#64748B' } }
+                        x: { ticks: { color: '#64748B' }, grid: { display: false } },
+                        y: { ticks: { color: '#64748B' }, grid: { color: 'rgba(255, 255, 255, 0.05)' } }
                     }
                 }
             });
         }
 
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-message').innerText = message;
-            toast.classList.remove('opacity-0');
-            setTimeout(() => toast.classList.add('opacity-0'), 2500);
+        // REGION FILTER + MAIN RENDER FUNCTION
+        function filterRegion(region) {
+            currentRegion = region;
+            document.querySelectorAll('.region-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${region}`).classList.add('active');
+
+            document.getElementById('header-title').innerText = region === 'all'
+                ? 'SEC HIRING | NATIONWIDE'
+                : `SEC HIRING | ${region.toUpperCase()} REGION`;
+            document.getElementById('header-period').innerText = `${rawData.meta.reportDate} • Review Period: ${rawData.meta.reviewPeriod}`;
+
+            // 1. UPDATE KPI CARDS
+            const r = rawData.regions[region] || rawData.regions.all;
+            document.getElementById('kpi-applicants').innerText = r.applicants;
+            document.getElementById('kpi-region-tag').innerText = r.label;
+            document.getElementById('kpi-applicants-sub').innerText = r.applicantsSub;
+
+            document.getElementById('kpi-pass').innerText = r.pass;
+            document.getElementById('kpi-pass-sub').innerText = r.passSub;
+
+            document.getElementById('kpi-active').innerText = r.active;
+            document.getElementById('kpi-active-sub').innerText = r.activeSub;
+
+            document.getElementById('kpi-net').innerText = r.net;
+            document.getElementById('kpi-net-sub').innerText = r.netSub;
+
+            document.getElementById('new-req-title').innerText = r.newReqTitle;
+            document.getElementById('new-req-desc').innerText = r.newReqDesc;
+
+            document.getElementById('act-req-title').innerText = r.actReqTitle;
+            document.getElementById('act-req-desc').innerText = r.actReqDesc;
+
+            // 2. RENDER PIPELINE TABLE
+            const pipelineTbody = document.getElementById('pipeline-tbody');
+            const filteredPipeline = region === 'all'
+                ? rawData.pipeline
+                : rawData.pipeline.filter(p => p.region === region);
+
+            pipelineTbody.innerHTML = filteredPipeline.map(item => `
+                <tr class="hover:bg-slate-800/30">
+                    <td class="p-3 font-medium text-white">${item.region}</td>
+                    <td class="p-3 text-center">${item.nso}</td>
+                    <td class="p-3 text-center">${item.nsoExist}</td>
+                    <td class="p-3 text-center">${item.exist}</td>
+                    <td class="p-3 text-right font-bold text-rose-400">${item.total}</td>
+                </tr>
+            `).join('');
+
+            // 3. RENDER DM RESIGNATIONS TABLE
+            const dmTbody = document.getElementById('dm-tbody');
+            const filteredDM = region === 'all'
+                ? rawData.dmResignations
+                : rawData.dmResignations.filter(d => d.region === region);
+
+            dmTbody.innerHTML = filteredDM.map(item => `
+                <tr class="hover:bg-slate-800/30">
+                    <td class="p-2.5 font-bold text-slate-400">${item.region}</td>
+                    <td class="p-2.5 font-medium text-white">${item.name}</td>
+                    <td class="p-2.5 text-center">${item.emp}</td>
+                    <td class="p-2.5 text-center">${item.resign}</td>
+                    <td class="p-2.5 text-right font-bold ${parseInt(item.rate) > 40 ? 'text-rose-400' : 'text-amber-400'}">${item.rate}</td>
+                </tr>
+            `).join('');
+
+            // 4. RENDER LOGS TABLE
+            const logsTbody = document.getElementById('logs-tbody');
+            const filteredLogs = region === 'all'
+                ? rawData.logs
+                : rawData.logs.filter(l => l.region === region);
+
+            logsTbody.innerHTML = filteredLogs.length > 0 ? filteredLogs.map(item => `
+                <tr class="hover:bg-slate-800/30">
+                    <td class="p-2.5 font-medium text-white">${item.name}</td>
+                    <td class="p-2.5 text-slate-400">${item.region}</td>
+                    <td class="p-2.5 text-slate-400">${item.store}</td>
+                    <td class="p-2.5">${item.dm}</td>
+                    <td class="p-2.5">${item.start}</td>
+                    <td class="p-2.5">${item.resign}</td>
+                    <td class="p-2.5 text-center font-semibold text-amber-400">${item.days}</td>
+                    <td class="p-2.5 text-rose-300">${item.reason}</td>
+                </tr>
+            `).join('') : `<tr><td colspan="8" class="p-4 text-center text-slate-500">No resignation records for this region</td></tr>`;
+
+            // 5. RENDER TURNOVER TABLES
+            document.getElementById('turnover-rm-tbody').innerHTML = rawData.turnoverByRM.map(item => `
+                <tr><td class="p-2.5 font-medium text-white">${item.name}</td><td class="text-center">${item.avgHC}</td><td class="text-center">${item.resigned}</td><td class="text-right font-semibold ${parseFloat(item.rate) > 25 ? 'text-rose-400' : 'text-emerald-400'}">${item.rate}</td></tr>
+            `).join('');
+
+            document.getElementById('turnover-om-tbody').innerHTML = rawData.turnoverByOM.map(item => `
+                <tr><td class="p-2 font-medium text-white">${item.name}</td><td class="text-center">${item.avgHC}</td><td class="text-center font-semibold ${parseFloat(item.rate8M) > 25 ? 'text-rose-400' : 'text-amber-400'}">${item.rate8M}</td><td class="text-right font-semibold text-rose-500">${item.rateFC}</td></tr>
+            `).join('');
+
+            // 6. UPDATE CHART DATA DYNAMICALLY
+            trendChart.data.labels = rawData.weeklyTrends.weeks;
+            document.getElementById('trend-subtitle').innerText = `${rawData.weeklyTrends.weeks[0]} to ${rawData.weeklyTrends.weeks[rawData.weeklyTrends.weeks.length - 1]} Breakdown`;
+            if (region === 'all') {
+                trendChart.data.datasets = [
+                    { label: 'South', data: rawData.weeklyTrends.South, backgroundColor: '#E11D48', borderRadius: 4 },
+                    { label: 'Central', data: rawData.weeklyTrends.Central, backgroundColor: '#F59E0B', borderRadius: 4 },
+                    { label: 'North', data: rawData.weeklyTrends.North, backgroundColor: '#3B82F6', borderRadius: 4 }
+                ];
+            } else {
+                const color = region === 'South' ? '#E11D48' : region === 'Central' ? '#F59E0B' : '#3B82F6';
+                trendChart.data.datasets = [
+                    { label: `${region} Region Pass`, data: rawData.weeklyTrends[region], backgroundColor: color, borderRadius: 6 }
+                ];
+            }
+            trendChart.update();
         }
 
+        // INIT ON LOAD
         window.onload = () => {
-            loadInitialData();
+            lucide.createIcons();
+            initChart();
+            filterRegion('all');
+            switchView('overview');
         };
     </script>
 </body>
