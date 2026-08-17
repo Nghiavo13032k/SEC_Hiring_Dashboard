@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEC HIRING - Admin Data Manager (HTML 1)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0B0F19; color: #F8FAFC; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .edit-input { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px 8px; font-size: 11px; color: #F8FAFC; width: 100%; min-width: 70px; }
+        .edit-input:focus { outline: none; border-color: #E11D48; }
+        .data-section { display: none; }
+        .data-section.active { display: block; }
+        .data-tab.active { background-color: #E11D48; color: #fff; }
+    </style>
+</head>
+<body class="p-8 max-w-7xl mx-auto space-y-6">
+
+    <!-- HEADER -->
+    <div class="glass-card p-6 rounded-2xl flex justify-between items-center">
+        <div>
+            <h1 class="text-xl font-bold text-white flex items-center gap-2">
+                <i data-lucide="database" class="w-5 h-5 text-rose-500"></i> SEC Hiring Data Admin Panel (HTML 1)
+            </h1>
+            <p class="text-xs text-slate-400 mt-1">Changes saved here automatically sync in real-time to the main report page.</p>
+        </div>
+        <button onclick="saveAndSync()" class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-sm font-semibold text-white flex items-center gap-2 shadow-lg shadow-rose-600/30">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i> Save & Sync to Report
+        </button>
+    </div>
+
+    <!-- METADATA FORM -->
+    <section class="glass-card p-6 rounded-2xl">
+        <h3 class="text-sm font-semibold text-white mb-4">Report Metadata</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="text-[10px] uppercase text-slate-400 font-bold">Report Date Label</label>
+                <input id="meta-reportDate" class="edit-input mt-1" type="text">
+            </div>
+            <div>
+                <label class="text-[10px] uppercase text-slate-400 font-bold">Review Period Label</label>
+                <input id="meta-reviewPeriod" class="edit-input mt-1" type="text">
+            </div>
+        </div>
+    </section>
+
+    <!-- TABBED EDITORS -->
+    <section class="glass-card p-6 rounded-2xl">
+        <div class="flex flex-wrap gap-2 mb-5 border-b border-slate-800 pb-4">
+            <button onclick="showSection('kpi')" class="data-tab active px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300">Region KPIs</button>
+            <button onclick="showSection('pipeline')" class="data-tab px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300">Pipeline</button>
+            <button onclick="showSection('trend')" class="data-tab px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300">Weekly Trend</button>
+        </div>
+
+        <!-- KPI EDITOR -->
+        <div id="data-section-kpi" class="data-section active overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-300">
+                <thead class="bg-slate-800/60 text-slate-400 uppercase">
+                    <tr>
+                        <th class="p-2">Region</th>
+                        <th class="p-2">Applicants</th>
+                        <th class="p-2">Applicants Sub</th>
+                        <th class="p-2">Pass</th>
+                        <th class="p-2">Pass Sub</th>
+                        <th class="p-2">Active</th>
+                        <th class="p-2">Active Sub</th>
+                    </tr>
+                </thead>
+                <tbody id="edit-kpi-tbody" class="divide-y divide-slate-800/60"></tbody>
+            </table>
+        </div>
+
+        <!-- PIPELINE EDITOR -->
+        <div id="data-section-pipeline" class="data-section overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-300">
+                <thead class="bg-slate-800/60 text-slate-400 uppercase">
+                    <tr><th class="p-2">Region</th><th class="p-2">NSO</th><th class="p-2">NSO Exist</th><th class="p-2">Exist</th><th class="p-2">Total</th></tr>
+                </thead>
+                <tbody id="edit-pipeline-tbody" class="divide-y divide-slate-800/60"></tbody>
+            </table>
+        </div>
+
+        <!-- TREND EDITOR -->
+        <div id="data-section-trend" class="data-section overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-300">
+                <thead class="bg-slate-800/60 text-slate-400 uppercase">
+                    <tr><th class="p-2">Week</th><th class="p-2">South</th><th class="p-2">Central</th><th class="p-2">North</th></tr>
+                </thead>
+                <tbody id="edit-trend-tbody" class="divide-y divide-slate-800/60"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-emerald-600 text-white text-sm font-semibold px-4 py-3 rounded-xl shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none">
+        Data broadcasted & synced successfully!
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'secHiringDashboardData';
+        let rawData = {};
+
+        const DEFAULT_DATA = {
+            meta: { reportDate: 'Aug 17, 2026', reviewPeriod: 'W33 (9/8 – 15/8)' },
+            regions: {
+                all: { label: 'Nationwide', applicants: 145, applicantsSub: 'South: 97 | North/Central: 48', pass: 10, passSub: 'South: 7 • Central: 2 • North: 1', active: 38, activeSub: 'South: 25 | North: 10 | Central: 3', net: '+34', netSub: '37 Onboarded / 3 Resigned', newReqTitle: '11 NEW', newReqDesc: 'South: 6 | North: 4 | Central: 1', actReqTitle: '38 REQUESTS', actReqDesc: 'South: 25 | North: 10 | Central: 3' },
+                South: { label: 'South Region', applicants: 97, applicantsSub: '66.8% of Nationwide', pass: 7, passSub: 'NSO: 2 | Exist: 4', active: 25, activeSub: 'NSO: 7 | Exist: 17', net: '+24', netSub: '26 Onboarded / 2 Resigned', newReqTitle: '6 NEW', newReqDesc: 'NSO: 2', actReqTitle: '25 REQUESTS', actReqDesc: 'NSO: 7' },
+                Central: { label: 'Central Region', applicants: 24, applicantsSub: 'Central Breakdown', pass: 2, passSub: 'Exist: 2', active: 3, activeSub: 'NSO: 1', net: '+5', netSub: '6 Onboarded', newReqTitle: '1 NEW', newReqDesc: 'Exist: 1', actReqTitle: '3 REQUESTS', actReqDesc: 'NSO: 1' },
+                North: { label: 'North Region', applicants: 24, applicantsSub: 'North Breakdown', pass: 1, passSub: 'Exist: 1', active: 10, activeSub: 'NSO: 4', net: '+5', netSub: '5 Onboarded', newReqTitle: '4 NEW', newReqDesc: 'NSO: 2', actReqTitle: '10 REQUESTS', actReqDesc: 'NSO: 4' }
+            },
+            pipeline: [
+                { region: 'South', nso: 2, nsoExist: 1, exist: 4, total: 7 },
+                { region: 'North', nso: 0, nsoExist: 0, exist: 1, total: 1 },
+                { region: 'Central', nso: 0, nsoExist: 0, exist: 2, total: 2 }
+            ],
+            weeklyTrends: { weeks: ['W30', 'W31', 'W32', 'W33'], South: [13, 10, 7, 7], Central: [5, 4, 3, 2], North: [2, 2, 2, 1] },
+            dmResignations: [], logs: [], turnoverByRM: [], turnoverByOM: []
+        };
+
+        function inputCell(value, extra) {
+            return `<input class="edit-input" value="${String(value).replace(/"/g, '&quot;')}" ${extra || ''}>`;
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            rawData = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+            
+            document.getElementById('meta-reportDate').value = rawData.meta.reportDate;
+            document.getElementById('meta-reviewPeriod').value = rawData.meta.reviewPeriod;
+
+            // Render KPI inputs
+            document.getElementById('edit-kpi-tbody').innerHTML = Object.keys(rawData.regions).map(key => {
+                const r = rawData.regions[key];
+                return `<tr data-region="${key}">
+                    <td class="p-2 font-semibold text-white">${r.label}</td>
+                    <td class="p-2">${inputCell(r.applicants, 'data-field="applicants"')}</td>
+                    <td class="p-2">${inputCell(r.applicantsSub, 'data-field="applicantsSub"')}</td>
+                    <td class="p-2">${inputCell(r.pass, 'data-field="pass"')}</td>
+                    <td class="p-2">${inputCell(r.passSub, 'data-field="passSub"')}</td>
+                    <td class="p-2">${inputCell(r.active, 'data-field="active"')}</td>
+                    <td class="p-2">${inputCell(r.activeSub, 'data-field="activeSub"')}</td>
+                </tr>`;
+            }).join('');
+
+            // Render Pipeline inputs
+            document.getElementById('edit-pipeline-tbody').innerHTML = rawData.pipeline.map((p, i) => `
+                <tr data-index="${i}">
+                    <td class="p-2">${inputCell(p.region, 'data-field="region"')}</td>
+                    <td class="p-2">${inputCell(p.nso, 'data-field="nso" type="number"')}</td>
+                    <td class="p-2">${inputCell(p.nsoExist, 'data-field="nsoExist" type="number"')}</td>
+                    <td class="p-2">${inputCell(p.exist, 'data-field="exist" type="number"')}</td>
+                    <td class="p-2">${inputCell(p.total, 'data-field="total" type="number"')}</td>
+                </tr>`).join('');
+
+            // Render Trend inputs
+            document.getElementById('edit-trend-tbody').innerHTML = rawData.weeklyTrends.weeks.map((w, i) => `
+                <tr data-index="${i}">
+                    <td class="p-2">${inputCell(w, 'data-field="week"')}</td>
+                    <td class="p-2">${inputCell(rawData.weeklyTrends.South[i] ?? 0, 'data-field="South" type="number"')}</td>
+                    <td class="p-2">${inputCell(rawData.weeklyTrends.Central[i] ?? 0, 'data-field="Central" type="number"')}</td>
+                    <td class="p-2">${inputCell(rawData.weeklyTrends.North[i] ?? 0, 'data-field="North" type="number"')}</td>
+                </tr>`).join('');
+        }
+
+        function saveAndSync() {
+            rawData.meta.reportDate = document.getElementById('meta-reportDate').value;
+            rawData.meta.reviewPeriod = document.getElementById('meta-reviewPeriod').value;
+
+            // Read KPIs
+            document.querySelectorAll('#edit-kpi-tbody tr').forEach(tr => {
+                const key = tr.getAttribute('data-region');
+                tr.querySelectorAll('[data-field]').forEach(input => {
+                    const field = input.getAttribute('data-field');
+                    rawData.regions[key][field] = ['applicants', 'pass', 'active'].includes(field) ? Number(input.value) : input.value;
+                });
+            });
+
+            // Write back to localStorage (Triggers 'storage' event in open tab)
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(rawData));
+            
+            // Show toast
+            const toast = document.getElementById('toast');
+            toast.classList.remove('opacity-0');
+            setTimeout(() => toast.classList.add('opacity-0'), 2000);
+        }
+
+        function showSection(name) {
+            document.querySelectorAll('.data-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(`data-section-${name}`).classList.add('active');
+            document.querySelectorAll('.data-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        window.onload = () => {
+            lucide.createIcons();
+            loadData();
+        };
+    </script>
+</body>
+</html>
